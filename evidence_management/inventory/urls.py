@@ -13,6 +13,5 @@ urlpatterns = [
     path('case/<int:case_id>/add_evidence/', views.add_evidence, name='add_evidence'),
     path('evidence/edit/<int:evidence_id>/', views.edit_evidence, name='edit_evidence'),
     path('evidence/<int:evidence_id>/', views.evidence_detail, name='evidence_detail'),
-    path('evidence/<int:evidence_id>/delete/', views.delete_evidence, name='delete_evidence'), 
     path('reports/', views.reports, name='reports'),
 ]
