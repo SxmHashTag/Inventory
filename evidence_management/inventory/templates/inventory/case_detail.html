@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Case Detail: {{ case.name }}</h1>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Case Information</h5>
+                <p><strong>Case Number:</strong> {{ case.number }}</p>
+                <p><strong>Head of Investigation (HOVJ):</strong> {{ case.hovj }}</p>
+                <p><strong>Team:</strong> {{ case.team }}</p>
+                <a href="{% url 'add_evidence' case.id %}" class="btn btn-primary">Add Evidence</a>
+                <a href="{% url 'case_list' %}" class="btn btn-secondary">Back to Case List</a>
+            </div>
+        </div>
+
+        <h2 class="mt-5">Evidence for Case: {{ case.name }}</h2>
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Collected On</th>
+                    <th>Added By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if evidences %}
+                    {% for evidence in evidences %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ evidence.description }}</td>
+                        <td>{{ evidence.collected_on }}</td>
+                        <td>{{ evidence.added_by }}</td>
+                        <td>
+                            <a href="{% url 'edit_evidence' evidence.id %}" class="btn btn-info btn-sm">Edit</a>
+                            <a href="{% url 'delete_evidence' evidence.id %}" class="btn btn-danger btn-sm">Delete</a>  <!-• Delete link -->
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">No evidence found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

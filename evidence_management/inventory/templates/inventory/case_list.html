@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-• jQuery for filtering -->
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding-top: 20px;
+            width: 250px; /* Fixed width for sidebar */
+        }
+        .content {
+            margin-left: 250px; /* Adjust based on the sidebar width */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="sidebar bg-light">
+        <h4 class="text-center">Inventory Menu</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'case_list' %}">Case List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'evidence_list' %}">Evidence List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'reports' %}">Reports</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <h1 class="mt-5">Case List</h1>
+            <h3>Total Cases: {{ total_cases }}</h3> 
+
+            <div class="mb-3">
+                <a href="{% url 'add_case' %}" class="btn btn-primary">Add New Case</a>
+            </div>
+
+            <!-• Search Bar -->
+            <div class="mb-4">
+                <input type="text" id="search" class="form-control" placeholder="Search cases..." aria-label="Search cases">
+            </div>
+
+            <table class="table table-bordered" id="caseTable">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Number</th>
+                        <th>HOVJ</th>
+                        <th>Team</th>
+                        <th>Items Count</th>  <!-• New column for items count -->
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for case in cases %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ case.name }}</td>
+                        <td>{{ case.number }}</td>
+                        <td>{{ case.hovj }}</td>
+                        <td>{{ case.team }}</td>
+                        <td>{{ case.item_count }}</td>  <!-• Display the count of items -->                       
+                        <td>
+                            <a href="{% url 'case_detail' case.id %}" class="btn btn-info btn-sm">View</a>
+                            <a href="{% url 'delete_case' case.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No cases found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#search").on("keyup", function() {
+                var value = $(this).val().toLowerCase(); // Get the input value
+                $("#caseTable tbody tr").filter(function() {
+                    $(this).toggle(
+                        $(this).find("td:nth-child(2)").text().toLowerCase().indexOf(value) > -1 || // Filter by Name
+                        $(this).find("td:nth-child(3)").text().toLowerCase().indexOf(value) > -1    // Filter by Number
+                    );
+                });
+            });
+        });
+    </script>
+</body>
+</html>

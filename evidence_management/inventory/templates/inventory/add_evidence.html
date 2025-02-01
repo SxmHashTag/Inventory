@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Evidence</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Add New Evidence</h1>
+        <form method="POST" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_description">Description</label>
+                <input type="text" name="description" class="form-control" id="id_description" value="{{ form.description.value|default_if_none:'' }}">
+                {{ form.description.errors }}
+            </div>
+            <div class="form-group">
+                <label for="id_collected_on">Collected On</label>
+                <input type="date" name="collected_on" class="form-control" id="id_collected_on" value="{{ form.collected_on.value|default_if_none:'' }}">
+                {{ form.collected_on.errors }}
+            </div>
+            <div class="form-group">
+                <label for="id_added_by">Added By</label>
+                <input type="text" name="added_by" class="form-control" id="id_added_by" value="{{ form.added_by.value|default_if_none:'' }}">
+                {{ form.added_by.errors }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{% url 'case_detail' case.id %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

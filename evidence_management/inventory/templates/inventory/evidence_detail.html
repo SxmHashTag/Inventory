@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding-top: 20px;
+        }
+        .content {
+            margin-left: 250px; /* Adjust based on the sidebar width */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar bg-light">
+        <h4 class="text-center">Menu</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'case_list' %}">Case List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'evidence_list' %}">Evidence List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'reports' %}">Reports</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <h1 class="mt-5">Evidence Detail</h1>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Description</th>
+                    <td>{{ evidence.description }}</td>
+                </tr>
+                <tr>
+                    <th>Collected On</th>
+                    <td>{{ evidence.collected_on }}</td>
+                </tr>
+                <tr>
+                    <th>Added By</th>
+                    <td>{{ evidence.added_by }}</td>
+                </tr>
+                <tr>
+                    <th>Case</th>
+                    <td>{{ evidence.case.name }}</td>  <!-• Assuming the Case model has a 'name' field -->
+                </tr>
+            </table>
+                <div class="mb-3">
+                    <a href="{% url 'edit_evidence' evidence.id %}" class="btn btn-info">Edit Evidence</a>
+                    <a href="{% url 'evidence_list' %}" class="btn btn-secondary">Back to Evidence List</a>  <!-• Updated link -->
+                </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

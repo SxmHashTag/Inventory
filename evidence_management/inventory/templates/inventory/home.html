@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding-top: 20px;
+            width: 250px; /* Fixed width for sidebar */
+        }
+        .content {
+            margin-left: 250px; /* Adjust this based on the width of the sidebar */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="sidebar bg-light">
+        <h4 class="text-center"> Menu</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'case_list' %}">Case List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'evidence_list' %}">Evidence List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'reports' %}">Reports</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <h1 class="mt-5">Inventory Dashboard</h1>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">Total Cases</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ total_cases }}</h5>
+                            <p class="card-text">Total number of cases recorded in the inventory.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-header">Total Evidence Items</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ total_items }}</h5>
+                            <p class="card-text">Total number of items recorded in evidence.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-5">Daily Reports</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>Total Cases Added</th>
+                                <th>Total Evidence Added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in daily_reports %}
+                            <tr>
+                                <td>{{ report.date }}</td>
+                                <td>{{ report.cases_added }}</td>
+                                <td>{{ report.evidence_added }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center">No daily reports available.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h2 class="mt-5">Status Overview</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card text-white bg-warning mb-3">
+                        <div class="card-header">Pending Cases</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pending_cases }}</h5>
+                            <p class="card-text">Number of cases pending resolution.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card text-white bg-danger mb-3">
+                        <div class="card-header">Critical Evidence Items</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ critical_evidence }}</h5>
+                            <p class="card-text">Number of evidence items that require immediate attention.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

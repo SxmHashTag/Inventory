@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Evidence</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding-top: 20px;
+        }
+        .content {
+            margin-left: 250px; /* Adjust based on the sidebar width */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar bg-light">
+        <h4 class="text-center">Menu</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'case_list' %}">Case List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'evidence_list' %}">Evidence List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'reports' %}">Reports</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <h1 class="mt-5">Edit Evidence</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_description">Description</label>
+                    <input type="text" name="description" class="form-control" id="id_description" value="{{ evidence.description }}">
+                    {% if evidence.description.errors %}
+                        <div class="text-danger">{{ evidence.description.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_collected_on">Collected On</label>
+                    <input type="date" name="collected_on" class="form-control" id="id_collected_on" value="{{ evidence.collected_on }}">
+                    {% if evidence.collected_on.errors %}
+                        <div class="text-danger">{{ evidence.collected_on.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_added_by">Added By</label>
+                    <input type="text" name="added_by" class="form-control" id="id_added_by" value="{{ evidence.added_by }}">
+                    {% if evidence.added_by.errors %}
+                        <div class="text-danger">{{ evidence.added_by.errors }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{% url 'evidence_list'  %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

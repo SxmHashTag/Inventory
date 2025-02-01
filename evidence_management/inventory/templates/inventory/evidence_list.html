@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-• jQuery for filtering -->
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding-top: 20px;
+            width: 250px; /* Fixed width for sidebar */
+        }
+        .content {
+            margin-left: 250px; /* Adjust this based on the width of the sidebar */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="sidebar bg-light">
+        <h4 class="text-center">Menu</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'case_list' %}">Case List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'evidence_list' %}">Evidence List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'reports' %}">Reports</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="container mt-5">
+            <h1>Evidence List</h1>
+            <h3>Total Evidence: {{ total_evidence }}</h3>
+
+            <!-• Search Bar -->
+            <div class="mb-4">
+                <input type="text" id="search" class="form-control" placeholder="Search evidence..." aria-label="Search evidence">
+            </div>
+
+            <table class="table table-bordered" id="evidenceTable">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Description</th>
+                        <th>Collected On</th>
+                        <th>Added By</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evidence in evidences %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ evidence.description }}</td>
+                        <td>{{ evidence.collected_on }}</td>
+                        <td>{{ evidence.added_by }}</td>
+                        <td>
+                            <a href="{% url 'edit_evidence' evidence.id %}" class="btn btn-info btn-sm">Edit</a>
+                            <a href="{% url 'delete_evidence' evidence.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No evidence found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#search").on("keyup", function() {
+                var value = $(this).val().toLowerCase(); // Get the input value
+                $("#evidenceTable tbody tr").filter(function() {
+                    $(this).toggle($(this).find("td:nth-child(2)").text().toLowerCase().indexOf(value) > -1) // Filter based on the description column
+                });
+            });
+        });
+    </script>
+</body>
+</html>
